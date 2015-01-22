@@ -3,8 +3,10 @@ game.PlayerEntity = me.Entity.extend({
 	init: function(x, y, settings){
 		this._super(me.Entity, 'init', [x, y, {
 			image: "player",
+			//tells us the amount of space the screen needs to reserve
 			width: 64,
 			height: 64,
+			//tells us the size of the image
 			spritewidth: "64",
 			spriteheight: "64",
 			getShape: function(){
