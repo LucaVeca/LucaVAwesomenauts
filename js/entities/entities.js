@@ -9,15 +9,18 @@ game.PlayerEntity = me.Entity.extend({
 			//tells us the size of the image
 			spritewidth: "64",
 			spriteheight: "64",
+			//the size of the character
 			getShape: function(){
 				return(new me.Rect(0, 0, 64, 64)).toPolygon();
 			}
 		}]);
 
+		//the speed the player moves at
 		this.body.setVelocity(5, 0);
 
 	},
 
+	//when the right key is pressed the character will move to the right
 	update: function(delta){
 		if(me.input.isKeyPressed("right")){
 			//adds to the position of my x by adding the velocity defined above in
@@ -33,5 +36,5 @@ game.PlayerEntity = me.Entity.extend({
 		return true;
 	}
 
-	
+
 });
