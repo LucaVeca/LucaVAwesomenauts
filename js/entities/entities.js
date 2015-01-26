@@ -18,9 +18,11 @@ game.PlayerEntity = me.Entity.extend({
 		//the speed the player moves at
 		this.body.setVelocity(5, 20);
 
+		//animates walking for the character
 		this.renderable.addAnimation("idle", [78])
-		this.renderable.addAnimation("walk", [177, 118, 119, 120, 121, 122, 123, 124, 125], 80)
+		this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80)
 
+		//when no key is pressed there is a default standing animation
 		this.renderable.setCurrentAnimation("idle");
 
 	},
@@ -32,12 +34,14 @@ game.PlayerEntity = me.Entity.extend({
 			//setVelocity() and multiplying it by me.timer.tick.
 			//me.timer.tick makes the movement look smooth
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			//flips animation to front facing
 			this.flipX(true);
 		}
 		else{
 			this.body.vel.x = 0;
 		}
 
+		//renders walking animation
 		if(this.body.vel.x !== 0){
 			if(!this.renderable.isCurrentAnimation("walk")){
 				this.renderable.setCurrentAnimation("walk");
