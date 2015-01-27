@@ -61,8 +61,10 @@ game.PlayerEntity = me.Entity.extend({
 
 });
 
+//creates base for your player
 game.PlayerBaseEntity = me.Entity.extend({
 	init : function(x, y, settings){
+		//specs of the base
 		this._super(me.Entity, 'init', [x, y, {
 			image: "tower",
 			width: 100,
@@ -73,6 +75,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 				return (new me.Rect(0, 0, 100, 100)).toPolygon();
 			}
 		}]);
+		//health of the base 
 		this.broken = false;
 		this.health = 10;
 		this.alwaysUpdate = true;
@@ -83,6 +86,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 	},
 
 	update:function(delta){
+		//if the base is broken it goes away
 		if(this.health<=0){
 			this.broken = true;
 		}
@@ -98,6 +102,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 
 });
 
+//creates base for enemy with the same specs and attributes as the player base
 game.EnemyBaseEntity = me.Entity.extend({
 	init : function(x, y, settings){
 		this._super(me.Entity, 'init', [x, y, {
