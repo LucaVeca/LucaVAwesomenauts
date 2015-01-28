@@ -19,8 +19,8 @@ game.PlayerEntity = me.Entity.extend({
 		this.body.setVelocity(5, 20);
 
 		//animates walking for the character
-		this.renderable.addAnimation("idle", [78])
-		this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80)
+		this.renderable.addAnimation("idle", [0])
+		this.renderable.addAnimation("walk", [9, 10, 11, 12, 13, 14, 15, 16, 17], 5)
 
 		//when no key is pressed there is a default standing animation
 		this.renderable.setCurrentAnimation("idle");
