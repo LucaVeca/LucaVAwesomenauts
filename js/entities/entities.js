@@ -17,10 +17,11 @@ game.PlayerEntity = me.Entity.extend({
 
 		//the speed the player moves at
 		this.body.setVelocity(5, 20);
+		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 
 		//animates walking for the character
-		this.renderable.addAnimation("idle", [0])
-		this.renderable.addAnimation("walk", [9, 10, 11, 12, 13, 14, 15, 16, 17], 5)
+		this.renderable.addAnimation("idle", [78]);
+		this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80);
 
 		//when no key is pressed there is a default standing animation
 		this.renderable.setCurrentAnimation("idle");
@@ -80,8 +81,12 @@ game.PlayerBaseEntity = me.Entity.extend({
 		this.health = 10;
 		this.alwaysUpdate = true;
 		this.body.onCollision = this.onCollision.bind(this);
-
+		console.log("init");
 		this.type = "PlayerBaseEntity";
+
+		this.renderable.addAnimation("idle", [0]);
+		this.renderable.addAnimation("broken", [1]);
+		this.renderable.setCurrentAnimation("idle");
 
 	},
 
@@ -89,6 +94,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 		//if the base is broken it goes away
 		if(this.health<=0){
 			this.broken = true;
+			this.renderable.setCurrentAnimation("broken");
 		}
 		this.body.update(delta);
 
@@ -102,7 +108,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 
 });
 
-//creates base for enemy with the same specs and attributes as the player base
+//creates base for enemy with the same specs and attributes as the player
 game.EnemyBaseEntity = me.Entity.extend({
 	init : function(x, y, settings){
 		this._super(me.Entity, 'init', [x, y, {
@@ -119,14 +125,19 @@ game.EnemyBaseEntity = me.Entity.extend({
 		this.health = 10;
 		this.alwaysUpdate = true;
 		this.body.onCollision = this.onCollision.bind(this);
-
+		console.log("init");
 		this.type = "EnemyBaseEntity";
+
+		this.renderable.addAnimation("idle", [0]);
+		this.renderable.addAnimation("broken", [1]);
+		this.renderable.setCurrentAnimation("idle");
 
 	},
 
 	update:function(delta){
 		if(this.health<=0){
 			this.broken = true;
+			this.renderable.setCurrentAnimation("broken");
 		}
 		this.body.update(delta);
 
