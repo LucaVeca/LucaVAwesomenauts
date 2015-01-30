@@ -84,6 +84,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 		console.log("init");
 		this.type = "PlayerBaseEntity";
 
+		//Gives a idle animation for a base that is healthy
 		this.renderable.addAnimation("idle", [0]);
 		this.renderable.addAnimation("broken", [1]);
 		this.renderable.setCurrentAnimation("idle");
@@ -94,6 +95,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 		//if the base is broken it goes away
 		if(this.health<=0){
 			this.broken = true;
+			//Gives a idle animation for a base that is healthy
 			this.renderable.setCurrentAnimation("broken");
 		}
 		this.body.update(delta);
@@ -128,6 +130,7 @@ game.EnemyBaseEntity = me.Entity.extend({
 		console.log("init");
 		this.type = "EnemyBaseEntity";
 
+		//Gives a idle animation for a base that is healthy
 		this.renderable.addAnimation("idle", [0]);
 		this.renderable.addAnimation("broken", [1]);
 		this.renderable.setCurrentAnimation("idle");
@@ -137,6 +140,7 @@ game.EnemyBaseEntity = me.Entity.extend({
 	update:function(delta){
 		if(this.health<=0){
 			this.broken = true;
+			//gives an animation for a broken base 
 			this.renderable.setCurrentAnimation("broken");
 		}
 		this.body.update(delta);
