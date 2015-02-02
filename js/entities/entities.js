@@ -55,6 +55,13 @@ game.PlayerEntity = me.Entity.extend ({
 			this.body.vel.x = 0;
 		}
 
+		if(me.input.isKeyPressed("jump")){
+			if(!this.body.jumping && !this.body.falling){
+				this.body.jumping = true;
+				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
+		}
+
 		//runs if the attack key is pressed
 		if(me.input.isKeyPressed("attack")){
 			if(!this.renderable.isCurrentAnimation("attack")){
@@ -107,7 +114,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 			spriteheight: "100",
 			getShape: function(){
 				//returns a rectangle of what the tower walks into
-				return(new me.Rect(0, 0, 100, 100)).toPolygon();
+				return(new me.Rect(0, 0, 100, 200)).toPolygon();
 			}
 		}]);
 		//says that tower hasn't been destroyed
@@ -169,7 +176,7 @@ game.EnemyBaseEntity = me.Entity.extend({
 			spriteheight: "100",
 			getShape: function(){
 				//returns a rectangle of what the tower walks into
-				return(new me.Rect(0, 0, 100, 100)).toPolygon();
+				return(new me.Rect(0, 0, 100, 70)).toPolygon();
 			}
 		}]);
 		//says that tower hasn't been destroyed
