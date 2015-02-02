@@ -44,7 +44,7 @@ game.PlayerEntity = me.Entity.extend ({
 		}
 
 		else if(me.input.isKeyPressed("left")){
-			//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
+			//when left key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
 			this.flipX(false);
@@ -55,6 +55,7 @@ game.PlayerEntity = me.Entity.extend ({
 			this.body.vel.x = 0;
 		}
 
+		//when up key is pressed, player jumps
 		if(me.input.isKeyPressed("jump")){
 			if(!this.body.jumping && !this.body.falling){
 				this.body.jumping = true;
