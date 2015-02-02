@@ -15,6 +15,8 @@ game.PlayScreen = me.ScreenObject.extend({
 
 		//creates action for a key
 		me.input.bindKey(me.input.KEY.RIGHT, "right");
+		me.input.bindKey(me.input.KEY.A, "attack");
+		me.input.bindKey(me.input.KEY.LEFT, "left");
 		
 		// add our HUD to the game world
 		this.HUD = new game.HUD.Container();
