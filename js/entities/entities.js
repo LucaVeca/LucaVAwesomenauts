@@ -21,6 +21,8 @@ game.PlayerEntity = me.Entity.extend ({
 		}]);
 		//sets movemet speed. allows player to move horizantally and vertically
 		this.body.setVelocity(5, 20);
+		//keeps track of what direction the character is facing
+		this.facing = "right";
 		//makesit so the player is always on the screen
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 		//gives player animation while standing
@@ -40,12 +42,14 @@ game.PlayerEntity = me.Entity.extend ({
 			//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			this.facing = "right";
 			this.flipX(true);
 		}
 
 		else if(me.input.isKeyPressed("left")){
 			//when left key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth
+			this.facing = "left";
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
 			this.flipX(false);
 		}
@@ -88,12 +92,32 @@ game.PlayerEntity = me.Entity.extend ({
 		}
 
 		
+		me.collision.check(this, true, this.collideHandler.bind(this), true);
 		//tells above code to work
 		this.body.update(delta);
 
 		this._super(me.Entity, "update", [delta]);
 		return true
+	},
+
+	collideHandler: function(response){
+		if(response.b.type==='EnemyBaseEntity'){
+			var ydif = this.pos.y - response.b.pos.y;
+			var xdif = this.pos.x - response.b.pos.x;
+		}
+
+		console.log("xdif " + xdif + " ydif " + ydif);
+
+		if(xdif>-35 && this.facing==='right'){
+			this.body.vel.x = 0;
+			this.pos.x = this.pos.x -1;
+		}
+		else if(xdif<60 && this.facing==='left'){
+			this.body.vel.x = 0;
+			this.pos.x = this.pos.x +1;
+		}
 	}
+
 });
 
 
