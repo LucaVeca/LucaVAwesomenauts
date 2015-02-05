@@ -91,7 +91,7 @@ game.PlayerEntity = me.Entity.extend ({
 			this.renderable.setCurrentAnimation("idle");
 		}
 
-		//checks if coliding is true
+		
 		me.collision.check(this, true, this.collideHandler.bind(this), true);
 		//tells above code to work
 		this.body.update(delta);
@@ -100,7 +100,6 @@ game.PlayerEntity = me.Entity.extend ({
 		return true
 	},
 
-	//makes the enemy base colidable
 	collideHandler: function(response){
 		if(response.b.type==='EnemyBaseEntity'){
 			var ydif = this.pos.y - response.b.pos.y;
@@ -110,12 +109,13 @@ game.PlayerEntity = me.Entity.extend ({
 		console.log("xdif " + xdif + " ydif " + ydif);
 
 		//player will colide with the base while facing to the right
-		if(xdif>-35 && this.facing==='right'){
+		if(xdif>-35 && this.facing==='right' && (xdif<0)){
 			this.body.vel.x = 0;
 			this.pos.x = this.pos.x -1;
 		}
 		
 		//player will colide with the base while facing to the left
+		else if(xdif<70 && this.facing==='left' && (ydif>0)){
 			this.body.vel.x = 0;
 			this.pos.x = this.pos.x +1;
 		}
