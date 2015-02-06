@@ -105,7 +105,7 @@ game.PlayerEntity = me.Entity.extend ({
 			var ydif = this.pos.y - response.b.pos.y;
 			var xdif = this.pos.x - response.b.pos.x;
 		}
-		
+		//player will collide witht the top of the base
 		if(ydif<-40 && xdif< 70 && xdif>-35){
 			this.body.falling = false;
 			this.body.vel.y = -1;
