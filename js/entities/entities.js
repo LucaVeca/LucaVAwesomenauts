@@ -4,7 +4,7 @@ game.PlayerEntity = me.Entity.extend ({
 	init: function(x, y, settings){
 		//reachers the constructor function for enitity
 		this._super(me.Entity, 'init', [x, y, {
-			//settings. shoes the player
+			//settings. shows the player
 			image: "player",
 			//sets aside a width of 64 pixels for the sprite
 			width: 64,
@@ -258,5 +258,39 @@ game.EnemyBaseEntity = me.Entity.extend({
 
 	loseHealth: function(){
 		this.health--;
+	}
+});
+
+game.EnemyCreep = me.Entity.extend({
+	init: function(x, y, settings){
+		this._super(me.Entity, 'init', [x, y, {
+			//settings. shoes the player
+			image: "player",
+			//sets aside a width of 32 pixels for the sprite
+			width: 32,
+			//sets aside a height of 64 pixels for the sprite
+			height: 64,
+			//gives the sprite a width of 32 
+			spritewidth : "32",
+			//gives the sprite a width of 64
+			spriteheight: "64",
+			getShape: function(){
+				//returns a rectangle of what the player walks into
+				return(new me.Rect(0, 0, 32, 64)).toPolygon();
+			}
+		}]);
+		this.health = 10;
+		this.alwaysUpdate = true;
+
+		this.setVelocity(3, 20);
+
+		this.type = "EnemyCreep";
+
+		this.renderable.addAnimation("walk", [3,4,5], 80);
+		this.renderable.setCurrentAnimation("walk");
+	},
+
+	update: function(){
+
 	}
 });
