@@ -23,6 +23,10 @@ game.PlayerEntity = me.Entity.extend ({
 		this.body.setVelocity(5, 20);
 		//keeps track of what direction the character is facing
 		this.facing = "right";
+		//checks what time it is in the game
+		this.now = new Date().getTime();
+		this.lastHit = this.now;
+		this.lastAttack = new Date().getTime();
 		//makesit so the player is always on the screen
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 		//gives player animation while standing
@@ -38,6 +42,7 @@ game.PlayerEntity = me.Entity.extend ({
 
 	//delata is the change in time that's happening
 	update: function(delta){
+		this.now = new Date().getTime();
 		if(me.input.isKeyPressed("right")){
 			//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth
@@ -66,7 +71,6 @@ game.PlayerEntity = me.Entity.extend ({
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
 			}
 		}
-
 		//runs if the attack key is pressed
 		if(me.input.isKeyPressed("attack")){
 			if(!this.renderable.isCurrentAnimation("attack")){
@@ -76,9 +80,8 @@ game.PlayerEntity = me.Entity.extend ({
 				this.renderable.setAnimationFrame();
 			}
 		}
-
 		//runs if the player is moving horizantally
-		else if(this.body.vel.x !== 0){
+		else if(this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")){
 			//runs if the player isn't already running the walk animation
 			if(!this.renderable.isCurrentAnimation("walk")){
 				//gives the player the walking animation
@@ -86,7 +89,7 @@ game.PlayerEntity = me.Entity.extend ({
 			}
 		}
 		//runs if player is standing still
-		else{
+		else if(!this.renderable.isCurrentAnimation("attack")){
 			//gives the player the idle animation
 			this.renderable.setCurrentAnimation("idle");
 		}
@@ -119,6 +122,11 @@ game.PlayerEntity = me.Entity.extend ({
 		else if(xdif<70 && this.facing==='left' && (ydif>0)){
 			this.body.vel.x = 0;
 			this.pos.x = this.pos.x +1;
+		}
+
+		if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000){
+			this.lastHit = this.now;
+			response.b.loseHealth();
 		}
 	}
 
@@ -244,5 +252,9 @@ game.EnemyBaseEntity = me.Entity.extend({
 	//function that runs when base is touched
 	onCollision: function(){
 		
+	},
+
+	loseHealth: function(){
+		this.health--;
 	}
 });
