@@ -26,6 +26,7 @@ game.PlayerEntity = me.Entity.extend ({
 		//checks what time it is in the game
 		this.now = new Date().getTime();
 		this.lastHit = this.now;
+		//sets delay on when the player can hit
 		this.lastAttack = new Date().getTime();
 		//makesit so the player is always on the screen
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
@@ -124,6 +125,7 @@ game.PlayerEntity = me.Entity.extend ({
 			this.pos.x = this.pos.x +1;
 		}
 
+		//sets how long the base has to be hit before it will break
 		if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000){
 			this.lastHit = this.now;
 			response.b.loseHealth();
