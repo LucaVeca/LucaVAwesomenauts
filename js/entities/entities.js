@@ -333,6 +333,7 @@ game.EnemyCreep = me.Entity.extend({
 			return true;
 		},
 	
+		//allows the enemy creep to attack your base 
 		collideHandler: function(response){
 			if(response.b.type==='PlayerBase'){
 				this.attacking=true;
