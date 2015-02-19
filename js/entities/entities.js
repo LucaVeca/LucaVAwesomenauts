@@ -360,6 +360,7 @@ game.EnemyCreep = me.Entity.extend({
 
 		//delta is the change in time that's happening
 		update: function(delta){
+			//logs what the enemy creeps health is
 			console.log(this.health);
 			if(this.health <= 0){
 				me.game.world.removeChild(this);
