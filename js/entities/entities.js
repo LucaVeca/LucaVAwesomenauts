@@ -22,15 +22,17 @@ game.PlayerEntity = me.Entity.extend ({
 		//allows player to be interacted with
 		this.type = "PlayerEntity";
 		//sets the player's health to 100
-		this.health = 20;
+		this.health = game.data.playerHealth;
 		//sets movemet speed. allows player to move horizantally and vertically
-		this.body.setVelocity(5, 20);
+		this.body.setVelocity(game.data.playerMoveSpeed, 20);
 		//keeps track of which way the character is going
 		this.facing = "right";
 		//variable for keeping track of time and date
 		this.now = new Date().getTime();
 		//same ^^
 		this.lastHit = this.now;
+		//declares that player isn't dead 
+		this.dead = false;
 		//keeps the player from attacking multiple times
 		this.lastAttack = new Date().getTime();
 		//makesit so the player is always on the screen
@@ -50,6 +52,14 @@ game.PlayerEntity = me.Entity.extend ({
 	update: function(delta){
 		//keeps timer updated
 		this.now = new Date().getTime();
+
+		if(this.health <= 0){
+			this.dead = true;
+			this.pos.x = 10;
+			this.pos.y = 0;
+			this.health = game.data.playerHealth;
+		}
+
 		//runs if the right key is pressed
 		if(me.input.isKeyPressed("right")){
 			//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
@@ -149,23 +159,26 @@ game.PlayerEntity = me.Entity.extend ({
 				this.pos.x = this.pos.x +1;
 			}
 			//runs if the player is attacking and its been 400 milliseconds since the last hit
-			if (this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000) {
+			if (this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= game.data.playerAttackTimer) {
 				//so the computer knows th eplayer just hit the tower
 				this.lastHit = this.now;
 				//calls the loseHealth function
-				response.b.loseHealth();
+				response.b.loseHealth(game.data.playerAttack);
 			}
 		}
+		//allows the player to attack the enemy creeps
 		else if(response.b.type==='EnemyCreep'){
 			var xdif = this.pos.x - response.b.pos.x;
 			var ydif = this.pos.y - response.b.pos.y;
 
+			//player can attack the creep when it is on the left
 			if(xdif>0){
 				this.pos.x = this.pos.x + 1;
 				if(this.facing==="left"){
 					this.body.vel.x = 0;
 				}
 			}
+			//player can attack the creep when it is on the right
 			else{
 				this.pos.x = this.pos.x - 1;
 				if(this.facing==="right"){
@@ -173,12 +186,14 @@ game.PlayerEntity = me.Entity.extend ({
 				}
 			}
 
-			if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000 
+			//determines how much health the creep has
+			//health is based on how long you can hit the creep before it dies 
+			if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= game.data.playerAttackTimer 
 				&& (Math.abs(ydif) <=40) && 
 				(((xdif>0) && this.facing==="left") || ((xdif<0) && this.facing==="right"))
 				){
 				this.lastHit = this.now;
-				response.b.loseHealth(1);
+				response.b.loseHealth(game.data.playerAttack);
 			}
 		}
 	}
@@ -207,7 +222,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 		//says that tower hasn't been destroyed
 		this.broken = false;
 		//gives tower a "health" of ten
-		this.health = 10;
+		this.health = game.data.playerBaseHealth;
 		//makes sure the tower's status is always updating, eben when it isn't on the map
 		this.alwaysUpdate = true;
 		//makes teh tower collidable
@@ -272,7 +287,7 @@ game.EnemyBaseEntity = me.Entity.extend({
 		//says that tower hasn't been destroyed
 		this.broken = false;
 		//gives tower a "health" of ten
-		this.health = 10;
+		this.health = game.data.enemyBaseHealth;
 		//makes sure the tower's status is always updating, eben when it isn't on the map
 		this.alwaysUpdate = true;
 		//makes the tower collidable
@@ -333,7 +348,7 @@ game.EnemyCreep = me.Entity.extend({
 				}
 			}]);
 			//sets health to ten
-			this.health = 10;
+			this.health = game.data.enemyCreepHealth;
 			//makes the creep's satus continuosly update
 			this.alwaysUpdate = true;
 			//says the creep is not attacking
@@ -393,7 +408,7 @@ game.EnemyCreep = me.Entity.extend({
 					//updates the lastHit timer
 					this.lastHit = this.now;
 					//runs the losehealth function, with 1 point damage
-					response.b.loseHealth(1);
+					response.b.loseHealth(game.data.enemyCreepAttack);
 				}
 			}
 			else if (response.b.type === 'PlayerEntity') {
@@ -416,7 +431,7 @@ game.EnemyCreep = me.Entity.extend({
 					//updates the lastHit timer
 					this.lastHit = this.now;
 					//runs the losehealth function, with 1 point damage
-					response.b.loseHealth(1);
+					response.b.loseHealth(game.data.enemyCreepAttack);
 				}
 			}
 		}
