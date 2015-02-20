@@ -43,6 +43,7 @@ game.PlayerEntity = me.Entity.extend ({
 		this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80);
 		//gives player animation while attacking
 		this.renderable.addAnimation("attack", [65, 66, 67, 68, 69, 70, 71, 72], 80);
+
 		//the player's start animation
 		this.renderable.setCurrentAnimation("idle");
 	},
@@ -56,9 +57,6 @@ game.PlayerEntity = me.Entity.extend ({
 		//allows characters health to go down 
 		if(this.health <= 0){
 			this.dead = true;
-			this.pos.x = 10;
-			this.pos.y = 0;
-			this.health = game.data.playerHealth;
 		}
 
 		//runs if the right key is pressed
@@ -150,14 +148,14 @@ game.PlayerEntity = me.Entity.extend ({
 				//stops player from moving 
 				this.body.vel.x = 0;
 				//moves player slightly away from tower
-				this.pos.x = this.pos.x -1;
+				//this.pos.x = this.pos.x -1;
 			}
 			//runs if the player's x position is 74 units away from the tower while facing left 
 			else if (xdif < 75 && this.facing === "left" && xdif > 0) {
 				//stops player from moving 
 				this.body.vel.x = 0;
 				//moves player slightly away from tower
-				this.pos.x = this.pos.x +1;
+				//this.pos.x = this.pos.x +1;
 			}
 			//runs if the player is attacking and its been 400 milliseconds since the last hit
 			if (this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= game.data.playerAttackTimer) {
@@ -174,14 +172,14 @@ game.PlayerEntity = me.Entity.extend ({
 
 			//player can attack the creep when it is on the left
 			if(xdif>0){
-				this.pos.x = this.pos.x + 1;
+				//this.pos.x = this.pos.x + 1;
 				if(this.facing==="left"){
 					this.body.vel.x = 0;
 				}
 			}
 			//player can attack the creep when it is on the right
 			else{
-				this.pos.x = this.pos.x - 1;
+				//this.pos.x = this.pos.x - 1;
 				if(this.facing==="right"){
 					this.body.vel.x = 0;
 				}
@@ -534,6 +532,12 @@ game.GameManager = Object.extend({
 	update: function(){
 		//keeps track of timer
 		this.now = new Date().getTime();
+
+		if(game.data.player.dead){
+			me.game.world.removeChild(game.data.player);
+			me.state.current().resetPlayer(10, 0);
+		}
+
 		//checks to make sure there is a multiple of ten. makes sure its been at least a second since last creep has been made
 		if(Math.round(this.now/1000)%10 === 0 && (this.now - this.lastCreep >= 1000)){
 			//updates timer
