@@ -53,6 +53,7 @@ game.PlayerEntity = me.Entity.extend ({
 		//keeps timer updated
 		this.now = new Date().getTime();
 
+		//allows characters health to go down 
 		if(this.health <= 0){
 			this.dead = true;
 			this.pos.x = 10;
