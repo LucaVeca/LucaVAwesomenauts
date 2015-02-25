@@ -2,6 +2,7 @@
 game.PlayerEntity = me.Entity.extend ({
 	//constructor function 
 	init: function(x, y, settings){
+		//opens up a function for each set class 
 		this.setSuper();
 		this.setPlayerTimers();
 		this.setAttributes();
