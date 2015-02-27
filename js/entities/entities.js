@@ -77,43 +77,9 @@ game.PlayerEntity = me.Entity.extend ({
 		//keeps timer updated
 		this.now = new Date().getTime();
 
-		//allows characters health to go down 
-		if(this.health <= 0){
-			this.dead = true;
-		}
+		this.dead = checkIfDead();
 
-		//runs if the right key is pressed
-		if(me.input.isKeyPressed("right")){
-			//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
-			//me.timer.tick makes the movement look smooth
-			this.body.vel.x += this.body.accel.x * me.timer.tick;
-			//so the program knows the character is facing right
-			this.facing = "right";
-			//flips the animation
-			this.flipX(true);
-		}
-
-		else if(me.input.isKeyPressed("left")){
-			//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
-			//me.timer.tick makes the movement look smooth
-			this.body.vel.x -= this.body.accel.x * me.timer.tick;
-			//so the program knows the character is facing left
-			this.facing = "left";
-			//doesn't flip the animation
-			this.flipX(false);
-		}
-
-		//if the right key isn't being pressed, the player doesn't move
-		else{
-			this.body.vel.x = 0;
-		}
-		//runs only if the up key is pressed, the player isn't already jumping or falling
-		if(me.input.isKeyPressed("jump") && !this.body.jumping && !this.body.falling){
-			//makes the player jump
-			this.body.jumping = true;
-			//sets velocity of the jump and the time
-			this.body.vel.y -= this.body.accel.y * me.timer.tick;
-		}
+		this.checkKeyPressesAndMove();
 
 		//runs if the attack key is pressed
 		if(me.input.isKeyPressed("attack")){
@@ -146,6 +112,63 @@ game.PlayerEntity = me.Entity.extend ({
 		this._super(me.Entity, "update", [delta]);
 		return true;
 	},
+
+	checkIfDead: function(){
+		//allows characters health to go down 
+		if(this.health <= 0){
+			this.dead = true;
+		}
+		return false;
+
+	},
+
+	checkKeyPressesAndMove: function(){
+		//runs if the right key is pressed
+		if(me.input.isKeyPressed("right")){
+			this.moveRight();
+		}
+
+		else if(me.input.isKeyPressed("left")){
+			this.moveLeft();
+		}
+
+		//if the right key isn't being pressed, the player doesn't move
+		else{
+			this.body.vel.x = 0;
+		}
+		//runs only if the up key is pressed, the player isn't already jumping or falling
+		if(me.input.isKeyPressed("jump") && !this.body.jumping && !this.body.falling){
+			this.jump();
+		}
+	},
+
+	moveRight: function(){
+		//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
+			//me.timer.tick makes the movement look smooth
+			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			//so the program knows the character is facing right
+			this.facing = "right";
+			//flips the animation
+			this.flipX(true);
+	}, 
+
+	moveLeft: function(){
+		//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
+			//me.timer.tick makes the movement look smooth
+			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+			//so the program knows the character is facing left
+			this.facing = "left";
+			//doesn't flip the animation
+			this.flipX(false);
+	}, 
+
+	jump: function(){
+		//makes the player jump
+			this.body.jumping = true;
+			//sets velocity of the jump and the time
+			this.body.vel.y -= this.body.accel.y * me.timer.tick;
+	},
+
 	//runs when called
 	loseHealth: function(damage){
 		//subtracts set amount of health
