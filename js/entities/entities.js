@@ -169,7 +169,7 @@ game.PlayerEntity = me.Entity.extend ({
 			this.body.vel.y -= this.body.accel.y * me.timer.tick;
 	},
 
-	//runs when called
+	//runs when called 
 	loseHealth: function(damage){
 		//subtracts set amount of health
 		this.health = this.health - damage;
