@@ -187,7 +187,16 @@ game.PlayerEntity = me.Entity.extend ({
 	collideHandler: function(response){
 		//runs if the player collides with the enemy base
 		if (response.b.type === 'EnemyBaseEntity') {
-			//represents the difference between player's y distance and enemy's y distance
+			this.collideWithEnemyBase(response);
+		}
+		//allows the player to attack the enemy creeps
+		else if(response.b.type==='EnemyCreep'){
+			this.collideWithEnemyCreep(response);
+		}
+	},
+
+	collideWithEnemyBase: function(response){
+		//represents the difference between player's y distance and enemy's y distance
 			var ydif = this.pos.y - response.b.pos.y;
 			//represents the difference between player's and enemy base's x distance
 			var xdif = this.pos.x - response.b.pos.x;
@@ -219,10 +228,10 @@ game.PlayerEntity = me.Entity.extend ({
 				//calls the loseHealth function
 				response.b.loseHealth(game.data.playerAttack);
 			}
-		}
-		//allows the player to attack the enemy creeps
-		else if(response.b.type==='EnemyCreep'){
-			var xdif = this.pos.x - response.b.pos.x;
+	},
+
+	collideWithEnemyCreep: function(response){
+		var xdif = this.pos.x - response.b.pos.x;
 			var ydif = this.pos.y - response.b.pos.y;
 
 			//player can attack the creep when it is on the left
@@ -256,8 +265,8 @@ game.PlayerEntity = me.Entity.extend ({
 
 				response.b.loseHealth(game.data.playerAttack);
 			}
-		}
 	}
+
 });
 
 // FRIENDLY CREEP ATTEMPT
