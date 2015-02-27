@@ -61,6 +61,7 @@ game.PlayerEntity = me.Entity.extend ({
 		this.facing = "right";
 		//declares that player isn't dead 
 		this.dead = false;
+		this.attacking = false;
 	},
 
 	addAnimation: function(){
@@ -81,29 +82,8 @@ game.PlayerEntity = me.Entity.extend ({
 
 		this.checkKeyPressesAndMove();
 
-		//runs if the attack key is pressed
-		if(me.input.isKeyPressed("attack")){
-			if(!this.renderable.isCurrentAnimation("attack")){
-				//sets current animation to attack. goes back to idle oncethe attack is over it goes back to idle
-				this.renderable.setCurrentAnimation("attack", "idle")
-				//makes it so that next time the button is pressed the player starts from the first animation, not where it left off
-				this.renderable.setAnimationFrame();
-			}
-		}
+		this.setAnimation();
 
-		//runs if the player is moving horizantally and not attacking
-		else if(this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")){
-			//runs if the player isn't already running the walk animation
-			if(!this.renderable.isCurrentAnimation("walk")){
-				//gives the player the walking animation
-				this.renderable.setCurrentAnimation("walk");
-			}
-		}
-		//runs if player is standing still and not attacking
-		else if(!this.renderable.isCurrentAnimation("attack")){
-			//gives the player the idle animation
-			this.renderable.setCurrentAnimation("idle");
-		}
 		//checks to see if player is colliding with base
 		me.collision.check(this, true, this.collideHandler.bind(this), true);
 		//tells above code to work
@@ -140,6 +120,35 @@ game.PlayerEntity = me.Entity.extend ({
 		if(me.input.isKeyPressed("jump") && !this.body.jumping && !this.body.falling){
 			this.jump();
 		}
+
+		setAnimation: function(){
+			//runs if the attack key is pressed
+		if(this.attacking){
+			if(!this.renderable.isCurrentAnimation("attack")){
+				//sets current animation to attack. goes back to idle oncethe attack is over it goes back to idle
+				this.renderable.setCurrentAnimation("attack", "idle")
+				//makes it so that next time the button is pressed the player starts from the first animation, not where it left off
+				this.renderable.setAnimationFrame();
+			}
+		}
+
+		//runs if the player is moving horizantally and not attacking
+		else if(this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")){
+			//runs if the player isn't already running the walk animation
+			if(!this.renderable.isCurrentAnimation("walk")){
+				//gives the player the walking animation
+				this.renderable.setCurrentAnimation("walk");
+			}
+		}
+		//runs if player is standing still and not attacking
+		else if(!this.renderable.isCurrentAnimation("attack")){
+			//gives the player the idle animation
+			this.renderable.setCurrentAnimation("idle");
+		}
+		},
+
+		this.attacking = me.input.isKeyPressed("attack");
+
 	},
 
 	moveRight: function(){
