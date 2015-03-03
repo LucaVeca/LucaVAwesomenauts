@@ -42,6 +42,7 @@ game.EnemyBaseEntity = me.Entity.extend({
 		if(this.health<=0){
 			//makes the tower "broken"
 			this.broken = true;
+			game.data.win = true;
 			//sets animation for "broken"
 			this.renderable.setCurrentAnimation("broken");
 		}
