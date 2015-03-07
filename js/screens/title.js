@@ -18,7 +18,22 @@ game.TitleScreen = me.ScreenObject.extend({
 				//sets the position on the screen for the text
 				this.font.draw(renderer.getContext(), "START A NEW GAME", 450, 130);
 				this.font.draw(renderer.getContext(), "Press ENTER to play", this.pos.x, this.pos.y);
+				me.input.registerPointerEvent('pointerdown', this, this.newGame.bind(this), true);
 
+			},
+
+			update: function(dt){
+				return true;
+			},
+
+			newGame: function(){
+				me.input.releasePointerEvent('pointerdown', this);
+				me.save.remove('exp');
+				me.save.remove('exp1');
+				me.save.remove('exp2');
+				me.save.remove('exp3');
+				me.save.remove('exp4');
+				me.state.change(me.state.PLAY);
 			}
 		})));
 	},
