@@ -26,7 +26,7 @@ game.GameTimerManager = Object.extend({
 	goldTimerCheck: function(){
 		//checks to make sure there is a multiple of ten. makes sure its been at least a second since last creep has been made
 		if(Math.round(this.now/1000)%20 === 0 && (this.now - this.lastCreep >= 1000)){
-			game.data.gold += 1;
+			game.data.gold += (game.data.exp1+1);
 			console.log("Current gold: " + game.data.gold);
 		}
 	},
@@ -93,5 +93,54 @@ game.ExperienceManager = Object.extend({
 		me.save.exp = game.data.exp;
 		//testing purposes  
 		me.save.exp2 = 4;
+	}
+});
+
+game.SpendGold = Object.extend({
+	init: function(x, y, settings){
+		//sets timer
+		this.now = new Date().getTime();
+		//keeps track of last time creep was made
+		this.lastBuy = new Date().getTime();
+		//says the game is not paused
+		this.paused = game.data.paused;
+		//keeps the function updating
+		this.alwaysUpdate = true;
+		this.updateWhenPaused = true;
+	},
+
+	update: function(){
+		this.now = new Date().getTime();
+
+		if(me.input.isKeyPressed("buy") && this.now-this.lastBuy >=1000){
+			this.lastBuy = this.now;
+			if(!this.buying){
+				this.startBuying();
+			}
+			else{
+				this.stopBuying();
+			}
+
+		}
+
+		return true;
+	},
+
+	startBuying: function(){
+		this.buying = true;
+		me.state.pause(me.state.PLAY);
+		game.data.pausePos = me.game.viewport.localToWorld(0, 0);
+		game.data.buyscreen = new me.Sprite(game.data.pausePos.x, game.data.pausePos.y, me.loader.getImage('gold-screen'));
+		game.data.buyscreen.updateWhenPaused = true;
+		game.data.buyscreen.setOpacity(0.8);
+		me.game.world.addChild(game.data.buyscreen, 34);
+		game.data.player.body.setVelocity(0, 0);
+
+	},
+
+	stopBuying: function(){
+		this.buying = false;
+		game.data.player.body.setVelocity(game.data.playerMoveSpeed, 20);
+		me.state.resume(me.state.PLAY);
 	}
 });
