@@ -159,7 +159,13 @@ game.SpendGold = Object.extend({
 			draw: function(renderer){
 				//sets the position on the screen for the text
 				//how to purchase upgrades
-				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT. CURRENT GOLD:", this.pos.x, this.pos.y);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y + 50);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y + 100);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y + 150);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y + 200);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y + 250);
+				this.font.draw(renderer.getContext(), "PRESS F1-F6 TO BUY, B TO EXIT", this.pos.x, this.pos.y + 300);
 			},
 		}));
 	//when text is bought the purchase is added to the game
