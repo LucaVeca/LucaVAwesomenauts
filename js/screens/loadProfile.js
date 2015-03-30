@@ -24,12 +24,12 @@ game.LoadProfile = me.ScreenObject.extend({
 				//sets the position on the screen for the text
 				//how to purchase upgrades
 				this.font.draw(renderer.getContext(), "ENTER YOUR USERNAME AND PASSWORD", this.pos.x, this.pos.y);
+			}
 		})));
 
 		
-
 	},
-	
+		
 	/**	
 	 *  action to perform when leaving this screen (state change)
 	 */
