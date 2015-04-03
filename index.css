@@ -36,7 +36,8 @@ body {
 	display: block;
 	text-align: center;
 	visibility: hidden;
-	background-color: red;
+	background-color: white;
+	color: black;
 }
 
 #load{
