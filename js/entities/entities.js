@@ -45,6 +45,7 @@ game.PlayerEntity = me.Entity.extend ({
 		this.now = new Date().getTime();
 		//same ^^
 		this.lastHit = this.now;
+		this.lastSpear = this.now;
 		//keeps the player from attacking multiple times
 		this.lastAttack = new Date().getTime();
 	},
@@ -81,6 +82,8 @@ game.PlayerEntity = me.Entity.extend ({
 		this.dead = this.checkIfDead();
 
 		this.checkKeyPressesAndMove();
+
+		this.checkAbilityKeys();
 
 		this.setAnimation();
 
@@ -122,33 +125,6 @@ game.PlayerEntity = me.Entity.extend ({
 		}
 	},
 
-	setAnimation: function(){
-		//runs if the attack key is pressed
-		if(this.attacking){
-			if(!this.renderable.isCurrentAnimation("attack")){
-				//sets current animation to attack. goes back to idle oncethe attack is over it goes back to idle
-				this.renderable.setCurrentAnimation("attack", "idle")
-				//makes it so that next time the button is pressed the player starts from the first animation, not where it left off
-				this.renderable.setAnimationFrame();
-			}
-		}
-
-		//runs if the player is moving horizantally and not attacking
-		else if(this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")){
-			//runs if the player isn't already running the walk animation
-			if(!this.renderable.isCurrentAnimation("walk")){
-				//gives the player the walking animation
-				this.renderable.setCurrentAnimation("walk");
-			}
-		}
-		//runs if player is standing still and not attacking
-		else if(!this.renderable.isCurrentAnimation("attack")){
-			//gives the player the idle animation
-			this.renderable.setCurrentAnimation("idle");
-		}
-				this.attacking = me.input.isKeyPressed("attack");
-	},
-
 	moveRight: function(){
 		//when right key is pressed, adds to the position of my x by the velocity defined above in setVelocity and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth
@@ -174,6 +150,58 @@ game.PlayerEntity = me.Entity.extend ({
 			this.body.jumping = true;
 			//sets velocity of the jump and the time
 			this.body.vel.y -= this.body.accel.y * me.timer.tick;
+	},
+
+	checkAbilityKeys: function(){
+		if(me.input.isKeyPressed("skill1")){
+			//this.speedBurst();
+		}
+		else if(me.input.isKeyPressed("skill2")){
+			//this.eatCreep();
+		}
+		else if(me.input.isKeyPressed("skill3")){
+			this.throwSpear();
+		}
+	},
+
+	throwSpear: function(){
+		if(this.lastSpear >= game.data.spearTimer && game.data.ability3 >= 0){
+			//updates timer
+			this.lastSpear = this.now;
+			//creates and inserts creeps into world
+			var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {});
+			//adds the creeps to the world
+			me.game.world.addChild(spear, 10);
+		}
+		
+
+	},
+
+	setAnimation: function(){
+		//runs if the attack key is pressed
+		if(this.attacking){
+			if(!this.renderable.isCurrentAnimation("attack")){
+				//sets current animation to attack. goes back to idle oncethe attack is over it goes back to idle
+				this.renderable.setCurrentAnimation("attack", "idle")
+				//makes it so that next time the button is pressed the player starts from the first animation, not where it left off
+				this.renderable.setAnimationFrame();
+			}
+		}
+
+		//runs if the player is moving horizantally and not attacking
+		else if(this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")){
+			//runs if the player isn't already running the walk animation
+			if(!this.renderable.isCurrentAnimation("walk")){
+				//gives the player the walking animation
+				this.renderable.setCurrentAnimation("walk");
+			}
+		}
+		//runs if player is standing still and not attacking
+		else if(!this.renderable.isCurrentAnimation("attack")){
+			//gives the player the idle animation
+			this.renderable.setCurrentAnimation("idle");
+		}
+				this.attacking = me.input.isKeyPressed("attack");
 	},
 
 	//runs when called 
