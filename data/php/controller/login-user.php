@@ -32,9 +32,9 @@
 				echo "<p>Login was successfull</p>";
 		}
 		else{
-			echo "<p>Invalid username or password</p>";
+			echo "Invalid username or password";
 		}
 	}
 	else{
-		echo "<p>Invalid username or password</p>";
+		echo "Invalid username or password";
 	}
