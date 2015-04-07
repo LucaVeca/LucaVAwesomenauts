@@ -165,11 +165,11 @@ game.PlayerEntity = me.Entity.extend ({
 	},
 
 	throwSpear: function(){
-		if(this.lastSpear >= game.data.spearTimer && game.data.ability3 >= 0){
+		if(this.lastSpear >= game.data.spearTimer && game.data.ability3 > 0){
 			//updates timer
 			this.lastSpear = this.now;
 			//creates and inserts creeps into world
-			var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {});
+			var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {}, this.facing);
 			//adds the creeps to the world
 			me.game.world.addChild(spear, 10);
 		}
