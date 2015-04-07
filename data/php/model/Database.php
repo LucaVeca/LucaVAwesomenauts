@@ -65,7 +65,7 @@ class Database{
 			$this->connection->close();
 		}
 		
-	}
+	} 
 
 	public function query($string){
 		$this->openConnection();
