@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<!-- html code to start off project -->
+
 <?php
 	require_once("data/php/controller/create-db.php");
 ?>
+
 <html>
 	<head>
 		<title>melonJS Template</title>
@@ -141,6 +142,7 @@
 					alert(response);
 				}
 				else{
+					//alert(response);
 					var data = jQuery.parseJSON(response);
 					game.data.exp = data["exp"];
 					game.data.exp1 = data["exp1"];

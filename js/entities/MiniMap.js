@@ -4,16 +4,16 @@ game.MiniMap = me.Entity.extend({
 			//settings. shows the creep
 				image: "minimap",
 				//sets aside a width of 64 pixels for the sprite
-				width: 450,
+				width: 762,
 				//sets aside a height of 64 pixels for the sprite
-				height: 168,
+				height: 158,
 				//gives the sprite a width of 64. 
-				spritewidth : "450",
+				spritewidth : "762",
 				//gives the sprite a width of 64
-				spriteheight: "168",
+				spriteheight: "158",
 				//gives creep a form
 				getShape: function(){
-					return(new me.Rect(0, 0, 450, 168)).toPolygon();
+					return(new me.Rect(0, 0, 762, 158)).toPolygon();
 				}
 		}]);
 		this.floating = true;
