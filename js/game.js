@@ -6,6 +6,8 @@ var game = {
 	data : {
 		// score
 		score : 0,
+		option1: "",
+		option2: "",
 		//applies various healths, speeds and timers to certain aspects of the game
 		EnemyBaseHealth: 1,
 		PlayerBaseHealth: 1,

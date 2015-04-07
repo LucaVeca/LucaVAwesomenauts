@@ -6,7 +6,7 @@ game.TitleScreen = me.ScreenObject.extend({
 		//calls the image you set as the title screen
 		me.game.world.addChild(new me.Sprite(0, 0, me.loader.getImage('title-screen')), -10); // TODO
 
-		me.game.world.addChild(new (me.Renderable.extend({
+		game.data.option1 = new (me.Renderable.extend({
 			init: function(){
 				//renders the text
 				this._super(me.Renderable, 'init', [270, 240, 300, 50]);
@@ -30,9 +30,11 @@ game.TitleScreen = me.ScreenObject.extend({
 				me.input.releasePointerEvent('pointerdown', game.data.option2);
 				me.state.change(me.state.NEW);
 			}
-		})));
+		}));
 
-			me.game.world.addChild(new (me.Renderable.extend({
+			me.game.world.addChild(game.data.option1);
+
+		game.data.option2 = new (me.Renderable.extend({
 			init: function(){
 				//renders the text
 				this._super(me.Renderable, 'init', [380, 340, 250, 50]);
@@ -51,10 +53,12 @@ game.TitleScreen = me.ScreenObject.extend({
 			},
 
 			newGame: function(){
-				me.input.releasePointerEvent('pointerdown', this);
+				me.input.releasePointerEvent('pointerdown', game.data.option1);
 				me.state.change(me.state.LOAD);
 			}
-		})));
+		}));
+
+			me.game.world.addChild(game.data.option2);
 
 	},
 	
